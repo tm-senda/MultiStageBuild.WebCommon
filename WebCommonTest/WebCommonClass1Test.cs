@@ -9,7 +9,7 @@ namespace MultiStageBuild.WebCommon
 		[Test]
 		public void TestMethod1()
 		{
-			Assert.IsTrue(new WebCommonClass1().Method1());
+			Assert.IsFalse(new WebCommonClass1().Method1());
 		}
 	}
 }
