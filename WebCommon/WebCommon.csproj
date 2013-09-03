@@ -56,38 +56,49 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <!--
+	<!--
 	 | Targets for Jenkins
 	 |-->
-  <!-- Update snapshot packages -->
-  <Target Name="UpdateSnapshotPackages" BeforeTargets="RestorePackages">
+	<!-- Update snapshot packages -->
+	<Target Name="UpdateSnapshotPackages" BeforeTargets="RestorePackages">
 		<Message Text="UpdateSnapshotPackages" />
-    <ItemGroup>
-      <PackagesToDelete Include="$([System.IO.Directory]::GetDirectories(&quot;$(SolutionDir)\packages&quot;,&quot;*-snapshot&quot;))" />
-    </ItemGroup>
+		<ItemGroup>
+			<PackagesToDelete Include="$([System.IO.Directory]::GetDirectories(&quot;$(SolutionDir)\packages&quot;, &quot;*-snapshot&quot;))" />
+		</ItemGroup>
 		<RemoveDir Directories="@(PackagesToDelete)" />
-  </Target>
-  <!-- Push packages -->
-  <PropertyGroup>
-    <EnablePushPackage Condition="'$(EnablePushPackage)' == ''">false</EnablePushPackage>
-  </PropertyGroup>
-  <Target Name="PushPackage" AfterTargets="BuildPackage" DependsOnTargets="CleanOldPackages" Condition="$(EnablePushPackage)">
-    <CallTarget Targets="_PushPackageToLocal" Condition="Exists('$(PushPackageTo)')" />
-    <CallTarget Targets="_PushPackageToRemote" Condition="!Exists('$(PushPackageTo)')" />
-  </Target>
-  <Target Name="_PushPackageToLocal">
-    <ItemGroup>
-      <PackageFiles Include="$(PackageOutputDir)\*.nupkg" />
-    </ItemGroup>
-    <Copy SourceFiles="@(PackageFiles)" DestinationFolder="$(PushPackageTo)" />
-  </Target>
-  <Target Name="_PushPackageToRemote">
-    <!-- TODO -->
-  </Target>
-  <Target Name="CleanOldPackages" BeforeTargets="BuildPackage">
-    <ItemGroup>
-      <PackageFiles Include="$(PackageOutputDir)\*.nupkg" />
-    </ItemGroup>
-    <Delete Files="@(PackageFiles)" />
-  </Target>
+	</Target>
+	<!-- Intercept "BuildPackage" Target -->
+	<PropertyGroup>
+		<PackageVersion>1.0.0</PackageVersion>
+		<IsPrerelease Condition="'$(IsPrerelease)' == ''">true</IsPrerelease>
+	</PropertyGroup>
+	<Target Name="PrepareBuildPackage" BeforeTargets="BuildPackage">
+		<PropertyGroup>
+			<BuildCommand Condition="$(IsPrerelease)">$(BuildCommand) -version $(PackageVersion)-snapshot</BuildCommand>
+			<BuildCommand Condition="!$(IsPrerelease)">$(BuildCommand) -version $(PackageVersion)</BuildCommand>
+		</PropertyGroup>
+	</Target>
+	<!-- Push packages -->
+	<PropertyGroup>
+		<EnablePushPackage Condition="'$(EnablePushPackage)' == ''">false</EnablePushPackage>
+	</PropertyGroup>
+	<Target Name="PushPackage" AfterTargets="BuildPackage" DependsOnTargets="CleanOldPackages" Condition="$(EnablePushPackage)">
+		<CallTarget Targets="_PushPackageToLocal" Condition="Exists('$(PushPackageTo)')" />
+		<CallTarget Targets="_PushPackageToRemote" Condition="!Exists('$(PushPackageTo)')" />
+	</Target>
+	<Target Name="_PushPackageToLocal">
+		<ItemGroup>
+			<PackageFiles Include="$(PackageOutputDir)\*.nupkg" />
+		</ItemGroup>
+		<Copy SourceFiles="@(PackageFiles)" DestinationFolder="$(PushPackageTo)" />
+	</Target>
+	<Target Name="_PushPackageToRemote">
+		<!-- TODO -->
+	</Target>
+	<Target Name="CleanOldPackages" BeforeTargets="BuildPackage">
+		<ItemGroup>
+			<PackageFilesToDelete Include="$(PackageOutputDir)\*.nupkg" />
+		</ItemGroup>
+		<Delete Files="@(PackageFilesToDelete)" />
+	</Target>
 </Project>
