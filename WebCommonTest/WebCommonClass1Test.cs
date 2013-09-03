@@ -1,7 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 
-namespace WebCommonTest
+namespace MultiStageBuild.WebCommon
 {
 	[TestFixture]
 	public class WebCommonClass1Test
@@ -9,6 +9,7 @@ namespace WebCommonTest
 		[Test]
 		public void TestMethod1()
 		{
+			Assert.IsTrue(new WebCommonClass1().Method1());
 		}
 	}
 }

@@ -1,7 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebCommonTest", "WebCommontTest.WebCommonTest.csproj", "{0AE26E35-74BF-4DF8-AFDF-8FBF4C28C66B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebCommonTest", "WebCommonTest\WebCommonTest.csproj", "{0AE26E35-74BF-4DF8-AFDF-8FBF4C28C66B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebCommon", "WebCommon\WebCommon.csproj", "{CC52D198-E0BC-40ED-9ACB-D08070033263}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +15,10 @@ Global
 		{0AE26E35-74BF-4DF8-AFDF-8FBF4C28C66B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0AE26E35-74BF-4DF8-AFDF-8FBF4C28C66B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0AE26E35-74BF-4DF8-AFDF-8FBF4C28C66B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC52D198-E0BC-40ED-9ACB-D08070033263}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC52D198-E0BC-40ED-9ACB-D08070033263}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC52D198-E0BC-40ED-9ACB-D08070033263}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC52D198-E0BC-40ED-9ACB-D08070033263}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
