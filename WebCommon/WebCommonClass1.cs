@@ -11,7 +11,7 @@ namespace MultiStageBuild.WebCommon
     {
 		public bool Method1()
 		{
-			return new CommonClass1().Method1();
+			return !new CommonClass1().Method1();
 		}
     }
 }
